@@ -1,4 +1,7 @@
+import java.io.File;
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -22,7 +25,13 @@ public class App {
         List<Map<String,String>> movieList = parser.parse(body);
         
         // Show the movie list how I want
+        var sGenerator = new StickerGenerator();
         for (Map<String,String> filme : movieList) {
+            String title = filme.get("title");
+            InputStream urlImage = new URL(filme.get("image")).openStream();
+            String nomeArquivo = "saida/" + new File(title.replace(":", "-")) + ".png";
+            sGenerator.criate(urlImage, nomeArquivo);
+            
             System.out.println("\033[32;1m" + "Rank: " + "\033[0m" + filme.get("rank"));
             System.out.println("\033[32;1m" + "Movie Title: " + "\033[0m" + filme.get("title"));
             System.out.println("\033[32;1m" + "Folder: " + "\033[0m" + filme.get("image"));
