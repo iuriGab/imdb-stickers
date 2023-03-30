@@ -28,17 +28,19 @@ public class App {
         var sGenerator = new StickerGenerator();
         for (Map<String,String> filme : movieList) {
             String title = filme.get("title");
+            String rating = filme.get("imDbRating");
             InputStream urlImage = new URL(filme.get("image")).openStream();
             String nomeArquivo = "saida/" + new File(title.replace(":", "-")) + ".png";
-            sGenerator.criate(urlImage, nomeArquivo);
+            sGenerator.create(urlImage, rating, nomeArquivo);
             
             System.out.println("\033[32;1m" + "Rank: " + "\033[0m" + filme.get("rank"));
-            System.out.println("\033[32;1m" + "Movie Title: " + "\033[0m" + filme.get("title"));
+            System.out.println("\033[32;1m" + "Movie Title: " + "\033[0m" + title);
             System.out.println("\033[32;1m" + "Folder: " + "\033[0m" + filme.get("image"));
-            System.out.print("\033[46;1m" + " Rating: " + filme.get("imDbRating") + " \033[0m ");
+            System.out.print("\033[46;1m" + " Rating: " + rating + " \033[0m ");
             
             double ratingDouble = Double.parseDouble(filme.get("imDbRating"));
             int ratingInt = (int) Math.round(ratingDouble/2);
+            
             for (int i = 0; i < ratingInt; i++){
                 System.out.print("\u2B50");
             }
