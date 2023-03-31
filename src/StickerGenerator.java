@@ -28,18 +28,20 @@ public class StickerGenerator {
     public void create(InputStream inputStream, String rating, String nomeArquivo) throws Exception{
         //read the image
         BufferedImage originalImage = ImageIO.read(inputStream);
-        BufferedImage resizeOriginalImage = StickerGenerator.ImageResizer.resize(originalImage, 1396, 2378);
+        if(rating != null){
+            originalImage = StickerGenerator.ImageResizer.resize(originalImage, 1396, 2378);
+        }
 
         //create new image with new dimensions and translucent
-        int width = resizeOriginalImage.getWidth();
-        int height = resizeOriginalImage.getHeight();
+        int width = originalImage.getWidth();
+        int height = originalImage.getHeight();
         int marginHeight = (int) (height * 0.2);
         int newHeight = height + marginHeight;
         BufferedImage newImage = new BufferedImage(width, newHeight, BufferedImage.TRANSLUCENT);
     
         //copy the original image into the new image
         Graphics2D graphics = (Graphics2D) newImage.getGraphics();
-        graphics.drawImage(resizeOriginalImage, 0, 0, null);
+        graphics.drawImage(originalImage, 0, 0, null);
     
         //Font configuration
         graphics.setColor(Color.YELLOW);
@@ -49,11 +51,15 @@ public class StickerGenerator {
         graphics.setFont(font);
         
         //config text according to rating
-        Double ratingDouble = Double.parseDouble(rating);
+        Double ratingDouble = 0.0;
+        if (rating != null){
+            ratingDouble = Double.parseDouble(rating);
+        }
+
         String text = "TOPZERA";
         
         int fontSize = font.getSize();
-        int maxWidth = resizeOriginalImage.getWidth() - 50;
+        int maxWidth = originalImage.getWidth() - 50;
         FontMetrics fm = graphics.getFontMetrics(font);
         
         var surprisedMan = ImageIO.read(new File("imgs/supresed-man.png"));
@@ -78,7 +84,7 @@ public class StickerGenerator {
         }
         
         Rectangle2D bounds = fm.getStringBounds(text, graphics);
-        int xText = (int) ((resizeOriginalImage.getWidth() - bounds.getWidth())/2);
+        int xText = (int) ((originalImage.getWidth() - bounds.getWidth())/2);
         int yText = newHeight-20;
         
         //create a text into the new image
