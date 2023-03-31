@@ -11,7 +11,8 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 
 public class StickerGenerator {
-
+    
+    //Methode to resize the image for default
     public class ImageResizer {
         public static BufferedImage resize(BufferedImage image, int newWidth, int newHeight) {
             int width = image.getWidth();
@@ -28,6 +29,8 @@ public class StickerGenerator {
     public void create(InputStream inputStream, String rating, String nomeArquivo) throws Exception{
         //read the image
         BufferedImage originalImage = ImageIO.read(inputStream);
+        
+        //If rating is != null, this is because I'm using the IMDB API. So I'll resizing the images to have a default's size 
         if(rating != null){
             originalImage = StickerGenerator.ImageResizer.resize(originalImage, 1396, 2378);
         }
@@ -47,23 +50,20 @@ public class StickerGenerator {
         graphics.setColor(Color.YELLOW);
         File fontImpact = new File("fonts/impact.ttf");
         var font = Font.createFont(Font.TRUETYPE_FONT, fontImpact);
-        // var font = new Font(Font.SANS_SERIF, Font.BOLD, 150);
         graphics.setFont(font);
         
         //config text according to rating
-        Double ratingDouble = 0.0;
-        if (rating != null){
-            ratingDouble = Double.parseDouble(rating);
-        }
-
         String text = "TOPZERA";
-        
+        Double ratingDouble = 0.0;
         int fontSize = font.getSize();
         int maxWidth = originalImage.getWidth() - 50;
         FontMetrics fm = graphics.getFontMetrics(font);
+
+        if (rating != null){
+            ratingDouble = Double.parseDouble(rating);
+        }
         
         var surprisedMan = ImageIO.read(new File("imgs/supresed-man.png"));
-        // BufferedImage pngSuperTop = new BufferedImage(width/2, width/2, surprisedMan.getType());
         if(ratingDouble > 8.9){
             text = "SUPER TOPZERA";
             graphics.drawImage(surprisedMan, 0, (int) (newHeight * 0.7), null);
@@ -83,14 +83,15 @@ public class StickerGenerator {
             fm = graphics.getFontMetrics();
         }
         
+        //Make a limit for the text position 
         Rectangle2D bounds = fm.getStringBounds(text, graphics);
         int xText = (int) ((originalImage.getWidth() - bounds.getWidth())/2);
         int yText = newHeight-20;
         
-        //create a text into the new image
+        //Set the text into the new image
         graphics.drawString(text, xText, yText);
         
-        //save the new image
+        //save the new image into a file
         ImageIO.write(newImage, "png", new File(nomeArquivo));
         
     }
