@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 public class StickerGenerator {
     
     //Methode to resize the image for default
-    public class ImageResizer {
+    private class ImageResizer {
         public static BufferedImage resize(BufferedImage image, int newWidth, int newHeight) {
             int width = image.getWidth();
             int height = image.getHeight();

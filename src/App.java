@@ -12,11 +12,14 @@ public class App {
         
         // String url = "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&start_date=2023-03-30&end_date=2023-03-31";
         // ExtractContent extractor = new ExtractContentNasa();
+        
+        // String url = "http://localhost:8080/languages";
+        // ExtractContent extractor = new ExtractContentIMDB();
 
         // Get the API
         var clientHttp = new ClientHttp();
         String body = clientHttp.searchData(url);
-
+        
         // Show the movie list how I want
         List<Contents> contentList = extractor.extract(body);
         var sGenerator = new StickerGenerator();
