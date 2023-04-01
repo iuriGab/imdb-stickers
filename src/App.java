@@ -7,11 +7,11 @@ public class App {
     public static void main(String[] args) throws Exception {
         
         // Make the connection with the data and search && Extract the contents
-        //String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
-        // ExtractContent extractor = new ExtractContentIMDB();
+        String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
+        ExtractContent extractor = new ExtractContentIMDB();
         
-        String url = "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&start_date=2023-03-30&end_date=2023-03-31";
-        ExtractContent extractor = new ExtractContentNasa();
+        // String url = "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&start_date=2023-03-30&end_date=2023-03-31";
+        // ExtractContent extractor = new ExtractContentNasa();
 
         // Get the API
         var clientHttp = new ClientHttp();
@@ -24,10 +24,10 @@ public class App {
         for (int i = 0; i < contentList.size(); i++) {
             Contents content = contentList.get(i);
             
-            String rank = content.getRank();
-            String title = content.getTitle();
-            String image = content.getUlrImage();
-            String rating = content.getRating();
+            String rank = content.rank();
+            String title = content.title();
+            String image = content.ulrImage();
+            String rating = content.rating();
             String nomeArquivo = "saida/" + new File(title.replace(":", "-")) + ".png";
             
             //Genarate the sticker
