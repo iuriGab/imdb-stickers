@@ -7,14 +7,14 @@ public class App {
     public static void main(String[] args) throws Exception {
         
         // Make the connection with the data and search && Extract the contents
-        String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
-        ExtractContent extractor = new ExtractContentIMDB();
+        // String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
+        // ExtractContent extractor = new ExtractContentIMDB();
         
         // String url = "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&start_date=2023-03-30&end_date=2023-03-31";
         // ExtractContent extractor = new ExtractContentNasa();
         
-        // String url = "http://localhost:8080/languages";
-        // ExtractContent extractor = new ExtractContentIMDB();
+        String url = "http://localhost:8080/languages";
+        ExtractContent extractor = new ExtractContentLang();
 
         // Get the API
         var clientHttp = new ClientHttp();
@@ -23,7 +23,7 @@ public class App {
         // Show the movie list how I want
         List<Contents> contentList = extractor.extract(body);
         var sGenerator = new StickerGenerator();
-        
+        System.out.println(contentList);
         for (int i = 0; i < contentList.size(); i++) {
             Contents content = contentList.get(i);
             
